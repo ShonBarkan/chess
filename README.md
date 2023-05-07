@@ -3,4 +3,4 @@ ready to play some chess
 
 
 
-![phpuTejFE](https://user-images.githubusercontent.com/117067935/236689011-dea0d9d0-0cff-416d-ad75-52381621c16f.gif)
+![chess-anime](https://user-images.githubusercontent.com/117067935/236689049-971fc1b9-8563-4688-a29c-629e7a1a38de.gif)
