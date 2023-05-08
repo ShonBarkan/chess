@@ -10,7 +10,6 @@ export class Square {
     }
 }
 
-
 ////// pieces
 export class king {
     constructor(color) {
@@ -41,6 +40,9 @@ export class king {
             })
             return validMoves
         };
+        this.isMyKingWillBeSafe =function(){
+            return true
+        }
     }
 }
 export class Queen {
@@ -173,6 +175,9 @@ export class Queen {
             }
             return validMoves
         };
+        this.isMyKingWillBeSafe =function(){
+            return true
+        }
     }
 }
 export class Rook {
@@ -246,6 +251,9 @@ export class Rook {
             }
             return validMoves
         };
+        this.isMyKingWillBeSafe =function(){
+            return true
+        }
     }
 }
 export class Bishop {
@@ -318,6 +326,9 @@ export class Bishop {
             }
             return validMoves
         };
+        this.isMyKingWillBeSafe =function(){
+            return true
+        }
     }
 }
 export class knight {
@@ -349,12 +360,16 @@ export class knight {
             })
             return validMoves
         };
+        this.isMyKingWillBeSafe =function(){
+            return true
+        }
     }
 }
 export class Pawn {
     constructor(color) {
         this.pic= color=='white'?'https://res.cloudinary.com/dyzpajqfj/image/upload/v1683465792/chess/White_pawn_uopduj.png':'https://res.cloudinary.com/dyzpajqfj/image/upload/v1683465792/chess/Black_pawn_voytrl.png';
         this.color = color;
+        this.whereIsMyKing={j:4,i:this.color=='white'?7:0}
         this.isFirstMove = true;
         this.name = 'Pawn'
         this.value = 1
@@ -393,6 +408,38 @@ export class Pawn {
                 }
             } 
             return validMoves
+        }
+        this.isMyKingWillBeSafe = function (from ,to, board){
+            
+            let enemys=[]
+            let safe= true;
+
+            let teampSquare= new Square()
+            teampSquare.SetOnMe(board[to.i][to.j].onMe)
+            board[to.i][to.j].SetOnMe(board[from.i][from.j].onMe)
+            board[from.i][from.j].SetOnMe(null)
+
+            if(this.color=='white'){
+                for(let i=0;i<=7;i++){
+                    enemys=[...enemys,...board[i].filter(square=> square.onMe==null? false : square.onMe.color=='black')]
+                }
+            }
+            if(this.color=='black'){
+                for(let i=0;i<=7;i++){
+                    enemys=[...enemys,...board[i].filter(square=> square.onMe==null? false : square.onMe.color=='white')]
+                } 
+            }
+
+            enemys.forEach( enemy=> {
+                let danger=enemy.onMe.showValidMoves({i:8-parseInt(enemy.name[1]),j:enemy.name.charCodeAt(0)-97},board).filter(move=> move.i===this.whereIsMyKing.i && move.j===this.whereIsMyKing.j)
+                if(danger.length>0) {
+                    safe=false
+                }
+            })
+            
+            board[from.i][from.j].SetOnMe(board[to.i][to.j].onMe)
+            board[to.i][to.j].SetOnMe(teampSquare.onMe)
+            return safe
         }
     }
 }

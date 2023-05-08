@@ -13,9 +13,7 @@ function Square({square}) {
         }
 
     function updateWantToMove(){
-        console.log(wantToMove);
-        console.log(turn);
-        console.log(square.onMe);
+
         document.getElementById('alrt').innerHTML=``
             if (wantToMove.from.i==null){
                 if(square.onMe?.color==turn){

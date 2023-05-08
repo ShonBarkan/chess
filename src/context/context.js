@@ -15,6 +15,7 @@ const ContextProvider = ({children}) => {
     function makeAmove(){ 
         const {from, to} = wantToMove
         if(board[from.i][from.j].onMe.color==turn){
+            console.log(board[from.i][from.j].onMe.isMyKingWillBeSafe(from,to,board));
             if(board[from.i][from.j].onMe.showValidMoves(from, board).filter(move=> to.i===move.i && to.j===move.j).length>0){
     
                 board[from.i][from.j].onMe.isFirstMove=false
